@@ -1,0 +1,29 @@
+name: Security Pipeline # The name of our robot
+
+on: [push] # Tell the robot to run every time we push code to GitHub
+
+jobs:
+  secret-scanner: # Job 1: Look for passwords
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3 # Grabs your code so the robot can read it
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2 # Runs the Gitleaks tool
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Gives the tool permission to run
+
+  vulnerability-scanner: # Job 2: Look for holes in software
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master # Runs the Trivy tool
+        with:
+          scan-type: "fs" # Tells Trivy to scan the files in the folder
+          ignore-unfixed: true # Only alert on holes we can fix
+          exit-code: "1" # FAIL the pipeline if a hole is found!
+          severity: "HIGH,CRITICAL" # Only yell about really bad holes
