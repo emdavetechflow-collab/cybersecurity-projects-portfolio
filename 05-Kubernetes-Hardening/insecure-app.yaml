@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: insecure-app
+spec:
+  containers:
+    - name: web-server
+      image: nginx
+      securityContext:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
