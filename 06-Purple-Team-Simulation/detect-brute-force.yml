@@ -1,0 +1,17 @@
+title: Hacker Brute Force Login Detected
+id: 12345678-1234-1234-1234-1234567890ab
+status: production
+description: Detects when a hacker fails to guess a password (MITRE T1110)
+author: Your Name
+date: 2024/08/08
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+  condition: selection
+level: high
+tags:
+  - attack.credential_access
+  - attack.t1110
