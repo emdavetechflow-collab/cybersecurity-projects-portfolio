@@ -1,0 +1,18 @@
+title: Suspicious Encoded PowerShell Command
+id: a1b2c3d4-e5f6-7890-1234-567890abcdef
+status: production
+description: Detects when a hacker uses PowerShell with an Encoded Command to hide malicious code (MITRE T1059.001).
+author: Emmanuel Davies
+date: 2024/08/09
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4688
+    CommandLine|contains: "-EncodedCommand"
+  condition: selection
+level: critical
+tags:
+  - attack.execution
+  - attack.t1059.001
